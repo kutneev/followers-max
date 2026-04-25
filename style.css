@@ -494,14 +494,19 @@ img {
 }
 
 .tg-brand__icon {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.1);
-  color: #2563eb;
-  font-size: 0.95rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #229ed9;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.tg-brand__icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .tg-nav {
@@ -641,14 +646,27 @@ img {
 }
 
 .tg-step__icon {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  background: rgba(37, 99, 235, 0.08);
-  color: #2563eb;
-  font-size: 1.25rem;
+  border-radius: 18px;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 700;
+  box-shadow: 0 16px 30px rgba(37, 99, 235, 0.18);
+}
+
+.tg-step__icon--violet {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
+
+.tg-step__icon--blue {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+}
+
+.tg-step__icon--sky {
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
 }
 
 .tg-step__number {
@@ -753,46 +771,69 @@ img {
 
 .tg-plan {
   position: relative;
-  padding: 28px;
+  padding: 42px 28px 28px;
   text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .tg-plan--featured {
   border-color: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
 }
 
 .tg-plan__label {
   position: absolute;
-  top: -12px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 6px 12px;
+  padding: 10px 20px;
   border-radius: 999px;
-  background: #2563eb;
+  background: #1976d2;
   color: #fff;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 700;
+  box-shadow: 0 12px 24px rgba(25, 118, 210, 0.2);
 }
 
 .tg-plan__price {
   margin-top: 18px;
-  font-size: 2.2rem;
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
   font-weight: 800;
   letter-spacing: -0.05em;
 }
 
 .tg-plan__meta {
-  margin-top: 12px;
+  margin-top: 16px;
+  font-size: 1rem;
 }
 
 .tg-plan__hint {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 0.95rem;
+}
+
+.tg-plan__saving {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  margin-top: 22px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #ecfdf3;
+  color: #16a34a;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.tg-plan__saving--empty {
+  background: transparent;
+  color: transparent;
 }
 
 .tg-plan .tg-button {
   width: 100%;
+  margin-top: 18px;
 }
 
 .tg-form-wrap {

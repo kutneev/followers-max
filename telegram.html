@@ -11,7 +11,14 @@
       <header class="tg-header">
         <div class="tg-shell tg-header__inner">
           <a class="tg-brand" href="telegram.html">
-            <span class="tg-brand__icon">✈</span>
+            <span class="tg-brand__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" focusable="false">
+                <path
+                  d="M19.8 5.2 3.9 11.33c-1.08.43-1.07 1.03-.2 1.3l4.08 1.27 1.58 5.02c.19.53.1.74.65.74.42 0 .6-.19.83-.42l1.98-1.92 4.11 3.03c.76.42 1.31.2 1.5-.7l2.7-12.73c.28-1.1-.42-1.6-1.35-1.18Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
             <span>TG Подписчики</span>
           </a>
 
@@ -44,7 +51,7 @@
 
             <div class="tg-steps">
               <article class="tg-card tg-step">
-                <span class="tg-step__icon">✎</span>
+                <span class="tg-step__icon tg-step__icon--violet">✎</span>
                 <span class="tg-step__number">1</span>
                 <h3>Оставляете заявку</h3>
                 <p>
@@ -53,7 +60,7 @@
               </article>
 
               <article class="tg-card tg-step">
-                <span class="tg-step__icon">👥</span>
+                <span class="tg-step__icon tg-step__icon--blue">👥</span>
                 <span class="tg-step__number">2</span>
                 <h3>Подбираем аудиторию</h3>
                 <p>
@@ -63,7 +70,7 @@
               </article>
 
               <article class="tg-card tg-step">
-                <span class="tg-step__icon">↗</span>
+                <span class="tg-step__icon tg-step__icon--sky">↗</span>
                 <span class="tg-step__number">3</span>
                 <h3>Получаете подписчиков</h3>
                 <p>
@@ -164,16 +171,19 @@
         <section class="tg-section" id="pricing">
           <div class="tg-shell">
             <div class="tg-section__head tg-section__head--center">
-              <h2>Стоимость</h2>
-              <p>Выберите подходящий стартовый объем подписчиков.</p>
+              <h2>Тарифы</h2>
+              <p>Выберите подходящий пакет подписчиков</p>
             </div>
 
             <div class="tg-pricing">
               <article class="tg-card tg-plan">
-                <h3>Старт</h3>
-                <div class="tg-plan__price">1000 ₽</div>
-                <div class="tg-plan__meta">100 подписчиков</div>
-                <div class="tg-plan__hint">10 ₽ за подписчика</div>
+                <h3>Попробовать</h3>
+                <div class="tg-plan__price">500 ₽</div>
+                <div class="tg-plan__meta">10 подписчиков</div>
+                <div class="tg-plan__hint">50 ₽ за подписчика</div>
+                <div class="tg-plan__saving tg-plan__saving--empty" aria-hidden="true">
+                  &nbsp;
+                </div>
                 <a class="tg-button tg-button--secondary" href="#form"
                   >Заказать</a
                 >
@@ -182,19 +192,21 @@
               <article class="tg-card tg-plan tg-plan--featured">
                 <span class="tg-plan__label">Популярный</span>
                 <h3>Оптимальный</h3>
-                <div class="tg-plan__price">3000 ₽</div>
-                <div class="tg-plan__meta">300 подписчиков</div>
-                <div class="tg-plan__hint">Можно обсудить больший объем</div>
+                <div class="tg-plan__price">2 000 ₽</div>
+                <div class="tg-plan__meta">50 подписчиков</div>
+                <div class="tg-plan__hint">40 ₽ за подписчика</div>
+                <div class="tg-plan__saving">Экономия 500 ₽</div>
                 <a class="tg-button" href="#form">Заказать</a>
               </article>
 
               <article class="tg-card tg-plan">
-                <h3>Индивидуально</h3>
-                <div class="tg-plan__price">По запросу</div>
-                <div class="tg-plan__meta">от 500 подписчиков</div>
-                <div class="tg-plan__hint">Под задачу, тематику и желаемый темп</div>
+                <h3>Выгодный</h3>
+                <div class="tg-plan__price">3 500 ₽</div>
+                <div class="tg-plan__meta">100 подписчиков</div>
+                <div class="tg-plan__hint">35 ₽ за подписчика</div>
+                <div class="tg-plan__saving">Экономия 1500 ₽</div>
                 <a class="tg-button tg-button--secondary" href="#form"
-                  >Обсудить</a
+                  >Заказать</a
                 >
               </article>
             </div>
@@ -303,7 +315,14 @@
       <footer class="tg-footer">
         <div class="tg-shell tg-footer__inner">
           <div class="tg-brand">
-            <span class="tg-brand__icon">✈</span>
+            <span class="tg-brand__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" focusable="false">
+                <path
+                  d="M19.8 5.2 3.9 11.33c-1.08.43-1.07 1.03-.2 1.3l4.08 1.27 1.58 5.02c.19.53.1.74.65.74.42 0 .6-.19.83-.42l1.98-1.92 4.11 3.03c.76.42 1.31.2 1.5-.7l2.7-12.73c.28-1.1-.42-1.6-1.35-1.18Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
             <span>TG Подписчики</span>
           </div>
           <p>© 2026 Все права защищены</p>
