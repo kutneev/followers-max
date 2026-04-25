@@ -657,6 +657,11 @@ img {
   box-shadow: 0 16px 30px rgba(37, 99, 235, 0.18);
 }
 
+.tg-step__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
 .tg-step__icon--violet {
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
 }
