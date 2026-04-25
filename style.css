@@ -515,6 +515,41 @@ img {
   gap: 30px;
 }
 
+.tg-menu-button {
+  display: none;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(24, 34, 48, 0.08);
+  border-radius: 14px;
+  background: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.tg-menu-button > span {
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: #182230;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.tg-menu-button.is-open > span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.tg-menu-button.is-open > span:nth-child(2) {
+  opacity: 0;
+}
+
+.tg-menu-button.is-open > span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 .tg-nav a {
   color: #667085;
   font-size: 0.95rem;
@@ -651,27 +686,20 @@ img {
   display: grid;
   place-items: center;
   border-radius: 18px;
-  color: #fff;
-  font-size: 1.45rem;
-  font-weight: 700;
-  box-shadow: 0 16px 30px rgba(37, 99, 235, 0.18);
+  color: #1976d2;
+  background: #dbeafe;
+  box-shadow: none;
 }
 
 .tg-step__icon svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  display: block;
 }
 
-.tg-step__icon--violet {
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-}
-
-.tg-step__icon--blue {
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-}
-
-.tg-step__icon--sky {
-  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+.tg-step__icon--light {
+  background: #dbeafe;
+  color: #1976d2;
 }
 
 .tg-step__number {
@@ -955,20 +983,46 @@ img {
     position: static;
   }
 
-  .tg-header__inner,
   .tg-footer__inner {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .tg-nav {
-    width: 100%;
-    gap: 14px;
+  .tg-header__inner {
+    position: relative;
+    min-height: auto;
+    padding: 16px 0 14px;
+    align-items: center;
+    flex-direction: row;
     flex-wrap: wrap;
   }
 
+  .tg-menu-button {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .tg-nav {
+    display: none;
+    width: 100%;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(24, 34, 48, 0.08);
+    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tg-nav.is-open {
+    display: flex;
+  }
+
+  .tg-nav a {
+    font-size: 1rem;
+  }
+
   .tg-hero {
-    padding: 64px 0 52px;
+    padding: 72px 0 52px;
   }
 
   .tg-section {
@@ -985,5 +1039,11 @@ img {
   .tg-plan,
   .tg-platform {
     padding: 22px;
+  }
+}
+
+@media (min-width: 761px) {
+  .tg-menu-button {
+    display: none !important;
   }
 }
