@@ -226,7 +226,11 @@
             <div class="tg-form-wrap">
               <h2>Оставить заявку</h2>
 
-              <form class="lead-form tg-form">
+              <form
+                class="lead-form tg-form"
+                data-platform="Telegram"
+                data-endpoint="https://script.google.com/macros/s/AKfycbzKXubCFSqxj29t9qPhLgD0RXhJaRhjtM4Y13LiqMKLB6EGgB10qRSJCm1tGSQEqJkk/exec"
+              >
                 <div class="tg-form__plans" role="radiogroup" aria-label="Пакет">
                   <label class="tg-choice">
                     <input
@@ -266,6 +270,17 @@
                     type="email"
                     placeholder="your@email.com"
                     required
+                  />
+                </div>
+
+                <div class="tg-hp" aria-hidden="true">
+                  <label for="telegram-company">Компания</label>
+                  <input
+                    id="telegram-company"
+                    name="company"
+                    type="text"
+                    tabindex="-1"
+                    autocomplete="off"
                   />
                 </div>
 
