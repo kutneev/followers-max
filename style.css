@@ -498,15 +498,29 @@ img {
   height: 36px;
   display: grid;
   place-items: center;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  color: #229ed9;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  color: inherit;
 }
 
 .tg-brand__icon svg {
-  width: 18px;
-  height: 18px;
+  width: 100%;
+  height: 100%;
+}
+
+.platform-logo {
+  width: 36px;
+  height: 36px;
+  display: block;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.platform-logo--small {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
 }
 
 .tg-nav {
@@ -948,6 +962,19 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+}
+
+.tg-platform__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  line-height: 1;
+}
+
+.tg-platform__title h3 {
+  margin: 0;
+  line-height: 1.1;
 }
 
 .tg-platform__top span {
