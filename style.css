@@ -1082,3 +1082,9 @@ img {
     display: none !important;
   }
 }
+
+
+/* Shared Realbuzz identity across all platform pages. */
+.realbuzz-logo { display: block; width: 190px; height: auto; flex: 0 0 auto; }
+.tg-header .realbuzz-logo { width: 174px; }
+.tg-brand:focus-visible { outline: 3px solid #1f6fff; outline-offset: 4px; border-radius: 4px; }
