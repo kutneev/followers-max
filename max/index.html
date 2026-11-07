@@ -10,6 +10,10 @@
     <link rel="icon" href="../favicon.ico" sizes="32x32" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
+    <meta name="description" content="Живые подписчики в канал MAX. Выберите пакет на 10, 50 или 100 подписчиков и оставьте заявку на Realbuzz." />
+    <link rel="canonical" href="https://realbuzz.ru/max/" />
+    <meta property="og:url" content="https://realbuzz.ru/max/" />
+    <meta property="og:description" content="Живые подписчики в канал MAX. Выберите пакет на 10, 50 или 100 подписчиков и оставьте заявку на Realbuzz." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="realbuzz — Реальная База" />
     <meta property="og:title" content="Живые подписчики в MAX" />
@@ -72,7 +76,7 @@
                 <span class="tg-step__number">1</span>
                 <h3>Оставляете заявку</h3>
                 <p>
-                  Укажите ваши контакты и ссылку на аккаунт в MAX.
+                  Укажите ваши контакты и ссылку на канал в MAX.
                 </p>
               </article>
 
@@ -91,7 +95,7 @@
                 <span class="tg-step__number">3</span>
                 <h3>Получаете подписчиков</h3>
                 <p>
-                  На профиль приходят живые пользователи, которым действительно
+                  В канал приходят живые пользователи, которым действительно
                   близок ваш контент.
                 </p>
               </article>
@@ -102,7 +106,7 @@
               <p>
                 Мы приводим реальных людей по параметрам вашей целевой
                 аудитории. Подписывается только тот, кому интересна тема вашего
-                профиля.
+                канала.
               </p>
 
               <div class="tg-proof__grid">
@@ -126,7 +130,7 @@
 
                 <article class="tg-proof__item">
                   <span class="tg-proof__badge">🛡</span>
-                  <h4>Безопасно для профиля</h4>
+                  <h4>Добровольная подписка</h4>
                   <p>
                     Привлечение идет в понятном формате без сложных и
                     рискованных схем.
@@ -191,6 +195,7 @@
                 <h3>Попробовать</h3>
                 <div class="tg-plan__price">500 ₽</div>
                 <div class="tg-plan__meta">10 подписчиков</div>
+                <div class="tg-plan__duration">Срок до 3 дней</div>
                 <div class="tg-plan__hint">50 ₽ за подписчика</div>
                 <div class="tg-plan__saving tg-plan__saving--empty" aria-hidden="true">
                   &nbsp;
@@ -203,6 +208,7 @@
                 <h3>Оптимальный</h3>
                 <div class="tg-plan__price">2 000 ₽</div>
                 <div class="tg-plan__meta">50 подписчиков</div>
+                <div class="tg-plan__duration">Срок до 1 недели</div>
                 <div class="tg-plan__hint">40 ₽ за подписчика</div>
                 <div class="tg-plan__saving">Экономия 500 ₽</div>
                 <a class="tg-button" href="#form" data-plan-select="standard">Заказать</a>
@@ -212,6 +218,7 @@
                 <h3>Выгодный</h3>
                 <div class="tg-plan__price">3 500 ₽</div>
                 <div class="tg-plan__meta">100 подписчиков</div>
+                <div class="tg-plan__duration">Срок до 2 недель</div>
                 <div class="tg-plan__hint">35 ₽ за подписчика</div>
                 <div class="tg-plan__saving">Экономия 1500 ₽</div>
                 <a class="tg-button tg-button--secondary" href="#form" data-plan-select="business">Заказать</a>
@@ -220,10 +227,31 @@
           </div>
         </section>
 
+        <section class="tg-section" id="faq" aria-labelledby="faq-title">
+          <div class="tg-shell tg-faq">
+            <div class="tg-section__head">
+              <h2 id="faq-title">Частые вопросы</h2>
+            </div>
+            <details class="tg-card tg-faq__item">
+              <summary>Что нужно для заявки?</summary>
+              <p>Выберите пакет, укажите удобный контакт для связи и добавьте ссылку на канал в MAX.</p>
+            </details>
+            <details class="tg-card tg-faq__item">
+              <summary>Как подбирается аудитория?</summary>
+              <p>При подборе учитываем тематику канала. Люди получают приглашение и сами решают, подписываться ли.</p>
+            </details>
+            <details class="tg-card tg-faq__item">
+              <summary>Можно ли начать с небольшого пакета?</summary>
+              <p>Да. Пакет «Попробовать» включает 10 подписчиков и стоит 500 ₽.</p>
+            </details>
+          </div>
+        </section>
+
         <section class="tg-section tg-section--muted" id="form">
           <div class="tg-shell">
             <div class="tg-form-wrap">
               <h2>Оставить заявку</h2>
+              <p class="tg-form-intro">Выберите пакет и оставьте ссылку. Свяжемся с вами по указанному контакту, чтобы обсудить запуск.</p>
 
               <form
                 class="lead-form tg-form"
@@ -257,12 +285,13 @@
 
                 <div class="field">
                   <label for="max-link">Ссылка на канал в Max</label>
-                  <input id="max-link" name="link" type="url" placeholder="https://max.ru/profile" required />
+                  <input id="max-link" name="link" type="url" placeholder="https://max.ru/…" required />
                 </div>
 
                 <button class="tg-button tg-button--full" type="submit">Отправить заявку</button>
                 <div class="form-message" aria-live="polite"></div>
               </form>
+              <p class="tg-form-contact">Есть вопросы? Напишите нам в Telegram <a href="https://t.me/Savkin_1337">@Savkin_1337</a>.</p>
             </div>
           </div>
         </section>

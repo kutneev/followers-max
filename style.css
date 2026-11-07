@@ -389,6 +389,11 @@ img {
   display: block;
 }
 
+.form-message[data-state="error"] {
+  background: #fff1f2;
+  color: #9f1239;
+}
+
 .platform-card__name {
   margin: 0 0 10px;
   font-size: 1.16rem;
@@ -893,6 +898,55 @@ img {
   text-align: center;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.04em;
+}
+
+.tg-form-intro,
+.tg-form-contact {
+  margin: 12px auto 0;
+  text-align: center;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.tg-form-contact a,
+.tg-footer-contact {
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.tg-faq {
+  max-width: 680px;
+}
+
+.tg-faq__item {
+  margin-top: 12px;
+  padding: 0;
+}
+
+.tg-faq__item summary {
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.tg-faq__item summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.tg-faq__item p {
+  margin: 0;
+  padding: 0 20px 16px;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.tg-plan__duration {
+  margin-top: 8px;
+  color: var(--text-soft);
+  font-size: 0.94rem;
 }
 
 .tg-form {
