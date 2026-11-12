@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Живые подписчики в Instagram</title>
-    <script src="../clarity.js"></script>
-    <script src="../metrika.js"></script>
+    <script src="../analytics-consent.js" data-metrika="105293150" data-clarity="whmvityzih" defer></script>
     <link rel="stylesheet" href="../style.css" />
     <link rel="icon" href="../favicon.ico" sizes="32x32" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
@@ -269,42 +268,43 @@
               <p class="tg-form-intro">Выберите пакет и оставьте ссылку. Отвечаем в дневное время в течение нескольких часов. Оплатить заказ можно после того, как мы свяжемся с вами.</p>
 
               <form
-                class="lead-form tg-form"
+                class="lead-form tg-form ym-disable-submit" data-clarity-mask="true"
                 data-platform="Instagram"
                 data-endpoint="https://script.google.com/macros/s/AKfycbzKXubCFSqxj29t9qPhLgD0RXhJaRhjtM4Y13LiqMKLB6EGgB10qRSJCm1tGSQEqJkk/exec"
               >
                 <div class="tg-form__plans" role="radiogroup" aria-label="Пакет">
                   <label class="tg-choice">
-                    <input type="radio" name="plan" value="10 подписчиков — 500 ₽" data-plan-id="trial" />
+                    <input class="ym-disable-keys" type="radio" name="plan" value="10 подписчиков — 500 ₽" data-plan-id="trial" />
                     <span>10 подп.<strong>500 ₽</strong></span>
                   </label>
                   <label class="tg-choice">
-                    <input type="radio" name="plan" value="50 подписчиков — 2000 ₽" data-plan-id="standard" checked />
+                    <input class="ym-disable-keys" type="radio" name="plan" value="50 подписчиков — 2000 ₽" data-plan-id="standard" checked />
                     <span>50 подп.<strong>2000 ₽</strong></span>
                   </label>
                   <label class="tg-choice">
-                    <input type="radio" name="plan" value="100 подписчиков — 3500 ₽" data-plan-id="business" />
+                    <input class="ym-disable-keys" type="radio" name="plan" value="100 подписчиков — 3500 ₽" data-plan-id="business" />
                     <span>100 подп.<strong>3500 ₽</strong></span>
                   </label>
                 </div>
 
                 <div class="field">
                   <label for="instagram-email">Ваши контакты</label>
-                  <input id="instagram-email" name="email" type="text" placeholder="Telegram, Whatsapp, Email, телефон" required />
+                  <input class="ym-disable-keys" id="instagram-email" name="email" type="text" placeholder="Telegram, Whatsapp, Email, телефон" required />
                 </div>
 
                 <div class="tg-hp" aria-hidden="true">
                   <label for="instagram-company">Компания</label>
-                  <input id="instagram-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+                  <input class="ym-disable-keys" id="instagram-company" name="company" type="text" tabindex="-1" autocomplete="off" />
                 </div>
 
                 <div class="field">
                   <label for="instagram-link">Ссылка на Instagram-аккаунт</label>
-                  <input id="instagram-link" name="link" type="url" placeholder="https://instagram.com/your_account" required />
+                  <input class="ym-disable-keys" id="instagram-link" name="link" type="url" placeholder="https://instagram.com/your_account" required />
                 </div>
 
                 <button class="tg-button tg-button--full" type="submit">Отправить заявку</button>
                 <div class="form-message" aria-live="polite"></div>
+                <p class="tg-form-intro">Данные заявки нужны для связи и обсуждения заказа. <a href="../privacy/">Политика обработки данных</a>. Условия заказа описаны в <a href="../offer/">оферте</a>.</p>
               </form>
               <p class="tg-form-contact">Есть вопросы? Напишите нам в Telegram <a href="https://t.me/Savkin_1337">@Savkin_1337</a>.</p>
             </div>
@@ -361,10 +361,13 @@
             <img class="realbuzz-logo" src="../assets/realbuzz-logo.svg" width="520" height="144" alt="realbuzz — Реальная База" loading="lazy" />
           </a>
           <div>
-            <p>Самозанятый Савкин Александр Игоревич<br />ИНН 027404221032</p>
+            <p>Самозанятый Савкин Александр Игоревич<br />ИНН 027404221032 · г. Уфа</p>
             <p><a class="tg-footer-contact" href="mailto:realbuzzmanager@yandex.ru">realbuzzmanager@yandex.ru</a></p>
             <p><a class="tg-footer-contact" href="https://t.me/Savkin_1337">Написать в Telegram</a></p>
             <p><a class="tg-footer-contact" href="../returns/">Условия оказания услуг и возврата</a></p>
+            <p><a class="tg-footer-contact" href="../offer/">Публичная оферта</a></p>
+            <p><a class="tg-footer-contact" href="../privacy/">Политика обработки данных</a></p>
+            <p><a class="tg-footer-contact" href="#analytics-settings" data-analytics-settings>Настройки аналитики</a></p>
             <p>© 2026 Все права защищены</p>
           </div>
         </div>
