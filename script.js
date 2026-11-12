@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (message) {
           message.dataset.state = "success";
-          message.textContent = "Заявка получена. Свяжемся с вами по указанному контакту, чтобы обсудить запуск.";
+          message.textContent = "Заявка получена. Отвечаем в дневное время в течение нескольких часов. Свяжемся с вами по указанному контакту. Оплата после общения с нами.";
           message.classList.add("is-visible");
         }
 
