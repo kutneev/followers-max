@@ -48,8 +48,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var formStarted = false;
     var submission = null;
     var saved = false;
+    var submitting = false;
 
     form.addEventListener("input", function (event) {
+      if (event.target.matches('input[name="email"], input[name="link"]')) event.target.setCustomValidity("");
       if (!formStarted && event.target.matches('input[name="email"], input[name="link"]')) {
         formStarted = true;
         trackGoal("rb_form_start", form);
@@ -64,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
-      if (saved) return;
+      if (saved || submitting) return;
 
       var message = form.querySelector(".form-message");
       var submitButton = form.querySelector('button[type="submit"]');
@@ -85,6 +87,21 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      var contactInput = form.querySelector('input[name="email"]');
+      var linkInput = form.querySelector('input[name="link"]');
+      if (!contactInput.value.trim()) {
+        contactInput.setCustomValidity("Укажите ваши контакты.");
+        contactInput.reportValidity();
+        return;
+      }
+      var normalizedLink = normalizeChannelLink(form.dataset.platform, linkInput.value);
+      if (!normalizedLink) {
+        linkInput.setCustomValidity(linkInput.dataset.formatError || "Укажите ссылку на выбранную площадку.");
+        linkInput.reportValidity();
+        return;
+      }
+      linkInput.setCustomValidity("");
+      submitting = true;
       if (submitButton) {
         submitButton.disabled = true;
         submitButton.textContent = "Отправка...";
@@ -98,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var payload = {
         platform: form.getAttribute("data-platform") || "",
         email: String(formData.get("email") || "").trim(),
-        channel: String(formData.get("link") || "").trim(),
+        channel: normalizedLink,
         plan: selectedPlan ? selectedPlan.value : "",
         planId: selectedPlan ? selectedPlan.dataset.planId : "",
         audience: formData.get("audience") || "",
@@ -147,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
           message.classList.add("is-visible");
         }
       } finally {
+        submitting = false;
         if (submitButton) {
           submitButton.disabled = false;
           submitButton.textContent = "Отправить заявку";
@@ -201,3 +219,39 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+
+function normalizeChannelLink(platform, value) {
+  var kind = platform.toLowerCase();
+  var text = value.trim();
+  if (!text || /\s/.test(text)) return null;
+
+  if (text.charAt(0) === "@") {
+    var name = text.slice(1);
+    var hosts = { telegram: "t.me", vk: "vk.com", instagram: "instagram.com" };
+    var validName = kind === "telegram" ? /^[a-zA-Z0-9_]+$/ : /^[a-zA-Z0-9_.]+$/;
+    if (!Object.prototype.hasOwnProperty.call(hosts, kind) || !validName.test(name)) return null;
+    text = hosts[kind] + "/" + name;
+  } else if (kind === "vk" && /^(club|public|id)\d+$/i.test(text)) {
+    text = "vk.com/" + text;
+  }
+
+  if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(text)) text = "https://" + text;
+  try {
+    var url = new URL(text);
+    if (!["http:", "https:"].includes(url.protocol) || url.username || url.password || url.port) return null;
+    var host = url.hostname.toLowerCase().replace(/^www\./, "");
+    var allowedHosts = {
+      telegram: ["t.me", "telegram.me"],
+      max: ["max.ru"],
+      vk: ["vk.com", "vk.ru", "m.vk.com", "m.vk.ru"],
+      instagram: ["instagram.com", "m.instagram.com"]
+    };
+    if (!Object.prototype.hasOwnProperty.call(allowedHosts, kind) || !allowedHosts[kind].includes(host)) return null;
+    if (!url.pathname.replace(/\//g, "")) return null;
+    url.protocol = "https:";
+    url.hostname = host.replace(/^m\./, "");
+    return url.href;
+  } catch (error) {
+    return null;
+  }
+}
