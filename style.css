@@ -1174,3 +1174,28 @@ img {
 .tg-form-wrap > .order-result { background: #fff; border: 1px solid #dbe5ed; border-radius: 24px; padding: 24px; }
 
 .order-result ~ .tg-form-contact { display: none; }
+
+@media (max-width: 767px) {
+  .payment-banks { grid-template-columns: 1fr; }
+  .payment-bank { padding: 16px; }
+  .payment-bank img { display: none; }
+  .payment-bank p { min-height: 0; margin: 6px 0 14px; }
+  .order-payment .payment-bank a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: #087bb0;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.4;
+    text-decoration: none;
+    text-align: center;
+  }
+  .order-payment .payment-bank a:hover,
+  .order-payment .payment-bank a:active { background: #06628d; }
+}
