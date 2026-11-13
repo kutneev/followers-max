@@ -1160,17 +1160,17 @@ img {
 .order-summary dt { color: #53687b; font-size: 14px; }
 .order-summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .order-summary .order-amount { font-size: 24px; }
-.payment-copy { border: 1px solid #bbcddb; border-radius: 8px; padding: 8px 12px; background: #fff; color: #15456a; font: inherit; font-size: 14px; cursor: pointer; }
 .payment-banks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
 .payment-bank { border: 1px solid #dbe5ed; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
 .payment-bank h4 { margin: 0; font-size: 17px; }
 .payment-bank p { margin: 8px 0; min-height: 60px; color: #53687b; font-size: 12px; }
 .payment-bank img { display: block; width: 100%; max-width: 240px; height: auto; margin: auto 0 12px; }
 .payment-bank a { display: block; font-weight: 600; font-size: 14px; }
-.payment-status { padding: 12px; background: #fff8e7; border-radius: 8px; }
 .order-payment :focus-visible { outline: 3px solid #067bb1; outline-offset: 3px; }
 @media (max-width: 480px) { .payment-banks { grid-template-columns: 1fr; } .payment-bank p { min-height: 0; } }
 
 .lead-form[hidden] { display: none; }
 .order-result { scroll-margin-top: 90px; }
 .tg-form-wrap > .order-result { background: #fff; border: 1px solid #dbe5ed; border-radius: 24px; padding: 24px; }
+
+.order-result ~ .tg-form-contact { display: none; }
