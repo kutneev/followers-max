@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var desktopFaq = window.matchMedia("(min-width: 1024px)");
+  function applyFaqDefault() {
+    document.querySelectorAll("details.tg-faq__item").forEach(function (item) {
+      item.open = desktopFaq.matches;
+    });
+  }
+  applyFaqDefault();
+  desktopFaq.addEventListener("change", applyFaqDefault);
+
   var attribution = getAttribution();
   var forms = document.querySelectorAll(".lead-form");
   var planButtons = document.querySelectorAll("[data-plan-select]");
