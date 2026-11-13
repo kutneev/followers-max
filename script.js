@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   forms.forEach(function (form) {
     var formStarted = false;
+    var submission = null;
+    var saved = false;
 
     form.addEventListener("input", function (event) {
       if (!formStarted && event.target.matches('input[name="email"], input[name="link"]')) {
@@ -53,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
+      if (saved) return;
 
       var message = form.querySelector(".form-message");
       var submitButton = form.querySelector('button[type="submit"]');
@@ -83,6 +86,18 @@ document.addEventListener("DOMContentLoaded", function () {
         message.textContent = "";
       }
 
+      var payload = {
+        platform: form.getAttribute("data-platform") || "",
+        email: String(formData.get("email") || "").trim(),
+        channel: String(formData.get("link") || "").trim(),
+        plan: selectedPlan ? selectedPlan.value : "",
+        planId: selectedPlan ? selectedPlan.dataset.planId : "",
+        audience: formData.get("audience") || "",
+        attribution: attribution,
+      };
+      var signature = JSON.stringify(payload);
+      if (!submission || submission.signature !== signature) submission = { signature: signature, token: crypto.randomUUID() };
+      payload.submissionToken = submission.token;
       try {
         var response = await fetch(endpoint, {
           method: "POST",
@@ -90,34 +105,31 @@ document.addEventListener("DOMContentLoaded", function () {
           headers: {
             "Content-Type": "text/plain;charset=utf-8",
           },
-          body: JSON.stringify({
-            platform: form.getAttribute("data-platform") || "",
-            email: formData.get("email") || "",
-            channel: formData.get("link") || "",
-            plan: selectedPlan ? selectedPlan.value : "",
-            audience: formData.get("audience") || "",
-            attribution: attribution,
-          }),
+          body: JSON.stringify(payload),
         });
 
-        if (!response.ok || (await response.json()).success !== true) {
+        var result = await response.json();
+        if (!response.ok || result.success !== true) {
           throw new Error("Заявка не подтверждена обработчиком");
         }
 
         trackGoal("rb_lead_success", form, selectedPlan && selectedPlan.dataset.planId);
 
-        if (message) {
-          message.dataset.state = "success";
-          message.textContent = "Заявка получена. Отвечаем в дневное время в течение нескольких часов. Свяжемся с вами по указанному контакту. Оплатить заказ можно после того, как мы свяжемся с вами.";
-          message.classList.add("is-visible");
+        saved = true;
+        var amount = { trial: 500, standard: 2000, business: 3500 }[payload.planId];
+        var payment = document.createElement("div");
+        payment.className = "order-result";
+        payment.tabIndex = -1;
+        payment.setAttribute("role", "status");
+        if (typeof result.requestId === "string" && /^RB-[A-Z0-9-]{6,40}$/.test(result.requestId) && result.amount === amount && result.paymentStatus === "Не проверена") {
+          window.renderOrderPayment(payment, { requestId: result.requestId, amount: amount, plan: payload.plan });
+        } else {
+          payment.textContent = "Заявка сохранена. Реквизиты оплаты сейчас недоступны. Напишите @Savkin_1337 в Telegram — поможем с оплатой. Повторно отправлять заявку не нужно.";
         }
-
-        form.reset();
-
-        var defaultPlan = form.querySelector('input[data-plan-id="standard"]');
-        if (defaultPlan) {
-          defaultPlan.checked = true;
-        }
+        form.hidden = true;
+        form.after(payment);
+        payment.focus({ preventScroll: true });
+        payment.scrollIntoView({ block: "start" });
       } catch (error) {
         trackGoal("rb_lead_error", form, selectedPlan && selectedPlan.dataset.planId);
         if (message) {
