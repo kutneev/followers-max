@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function initRealbuzzForms() {
   var desktopFaq = window.matchMedia("(min-width: 1024px)");
   function applyFaqDefault() {
     document.querySelectorAll("details.tg-faq__item").forEach(function (item) {
@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   applyFaqDefault();
-  desktopFaq.addEventListener("change", applyFaqDefault);
+  if (desktopFaq.addEventListener) desktopFaq.addEventListener("change", applyFaqDefault);
+  else if (desktopFaq.addListener) desktopFaq.addListener(applyFaqDefault);
 
   var attribution = getAttribution();
   var forms = document.querySelectorAll(".lead-form");
@@ -45,6 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   forms.forEach(function (form) {
+    if (form.dataset.initialized) return;
+    form.dataset.initialized = "true";
+    form.noValidate = true;
     var formStarted = false;
     var submission = null;
     var saved = false;
@@ -73,10 +77,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var formData = new FormData(form);
       var endpoint = form.getAttribute("data-endpoint");
       var selectedPlan = form.querySelector('input[name="plan"]:checked');
-      var honeypot = formData.get("company");
-
-      if (honeypot) {
-        return;
+      function showError(text, input) {
+        if (message) {
+          message.textContent = text;
+          message.dataset.state = "error";
+          message.classList.add("is-visible");
+        }
+        if (input) input.focus();
       }
 
       if (!endpoint) {
@@ -91,13 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var linkInput = form.querySelector('input[name="link"]');
       if (!contactInput.value.trim()) {
         contactInput.setCustomValidity("Укажите ваши контакты.");
-        contactInput.reportValidity();
+        showError("Укажите ваши контакты.", contactInput);
         return;
       }
       var normalizedLink = normalizeChannelLink(form.dataset.platform, linkInput.value);
       if (!normalizedLink) {
         linkInput.setCustomValidity(linkInput.dataset.formatError || "Укажите ссылку на выбранную площадку.");
-        linkInput.reportValidity();
+        showError(linkInput.validationMessage, linkInput);
         return;
       }
       linkInput.setCustomValidity("");
@@ -108,8 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (message) {
-        message.classList.remove("is-visible");
-        message.textContent = "";
+        message.classList.add("is-visible");
+        message.dataset.state = "pending";
+        message.textContent = "Сохраняем заявку. Это может занять несколько секунд.";
       }
 
       var payload = {
@@ -122,9 +130,12 @@ document.addEventListener("DOMContentLoaded", function () {
         attribution: attribution,
       };
       var signature = JSON.stringify(payload);
-      if (!submission || submission.signature !== signature) submission = { signature: signature, token: crypto.randomUUID() };
-      payload.submissionToken = submission.token;
+      var requestTimer;
       try {
+        if (!submission || submission.signature !== signature) submission = { signature: signature, token: createSubmissionToken() };
+        payload.submissionToken = submission.token;
+        var controller = new AbortController();
+        requestTimer = setTimeout(function () { controller.abort(); }, 35000);
         var response = await fetch(endpoint, {
           method: "POST",
           credentials: "omit",
@@ -132,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "Content-Type": "text/plain;charset=utf-8",
           },
           body: JSON.stringify(payload),
+          signal: controller.signal,
         });
 
         var result = await response.json();
@@ -175,10 +187,11 @@ document.addEventListener("DOMContentLoaded", function () {
         trackGoal("rb_lead_error", form, selectedPlan && selectedPlan.dataset.planId);
         if (message) {
           message.dataset.state = "error";
-          message.textContent = "Не удалось подтвердить получение заявки. Напишите нам в Telegram по ссылке под формой.";
+          message.textContent = "Не удалось подтвердить сохранение заявки. Нажмите «Отправить заявку» ещё раз — повторная отправка тех же данных не создаст дубль. Или напишите нам в Telegram.";
           message.classList.add("is-visible");
         }
       } finally {
+        clearTimeout(requestTimer);
         submitting = false;
         if (submitButton) {
           submitButton.disabled = false;
@@ -206,11 +219,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var attribution = { source: "Прямой переход" };
     var externalReferrer = false;
     if (document.referrer) {
-      var referrer = new URL(document.referrer);
-      if (referrer.origin !== window.location.origin) {
-        externalReferrer = true;
-        attribution.source = referrer.hostname;
-      }
+      try {
+        var referrer = new URL(document.referrer);
+        if (referrer.origin !== window.location.origin) {
+          externalReferrer = true;
+          attribution.source = referrer.hostname;
+        }
+      } catch (_) { /* Referrer parsing must not block order forms. */ }
     }
 
     var hasCampaign = false;
@@ -232,7 +247,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return attribution;
   }
-});
+}
+
+function createSubmissionToken() {
+  if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+  var bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  bytes[6] = (bytes[6] & 15) | 64;
+  bytes[8] = (bytes[8] & 63) | 128;
+  var hex = Array.from(bytes, function (byte) { return ("0" + byte.toString(16)).slice(-2); }).join("");
+  return hex.slice(0, 8) + "-" + hex.slice(8, 12) + "-" + hex.slice(12, 16) + "-" + hex.slice(16, 20) + "-" + hex.slice(20);
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initRealbuzzForms, { once: true });
+else initRealbuzzForms();
 
 
 function normalizeChannelLink(platform, value) {
