@@ -15,19 +15,26 @@
   var summary = panel.querySelector('[data-summary]');
   var saved;
   try { saved = JSON.parse(sessionStorage.getItem('prodamus.order.' + id) || 'null'); } catch (_) {}
-  if (!endpoints[prefix] || !(new RegExp('^' + prefix + '-[A-Z0-9]{12}$')).test(id) ||
-      !saved || saved.requestId !== id || !/^[a-f0-9-]{36}$/i.test(saved.token || '') ||
-      ![500, 2000, 3500].includes(saved.amount) || !Number.isFinite(saved.createdAt) ||
-      Date.now() - saved.createdAt > 86400000 || saved.createdAt > Date.now() + 60000) {
+  var fragment = new URLSearchParams(location.hash.slice(1));
+  var returnKey = fragment.get('key') || (saved && saved.returnKey) || '';
+  var expires = fragment.get('expires') || (saved && saved.expires) || '';
+  var hasReturnKey = /^[a-f0-9]{64}$/i.test(returnKey) && /^\d{13}$/.test(String(expires));
+  var hasSession = saved && saved.requestId === id && /^[a-f0-9-]{36}$/i.test(saved.token || '') &&
+      [500, 2000, 3500].includes(saved.amount) && Number.isFinite(saved.createdAt) &&
+      Date.now() - saved.createdAt <= 86400000 && saved.createdAt <= Date.now() + 60000;
+  if (!endpoints[prefix] || !(new RegExp('^' + prefix + '-[A-Z0-9]{12}$')).test(id) || (!hasSession && !hasReturnKey)) {
     heading.textContent = 'Проверим ваш заказ';
     message.textContent = 'Не удалось автоматически проверить оплату в этом браузере. Если вы уже оплатили заказ, повторно платить не нужно. Напишите нам в Telegram — проверим заказ.';
     if (/^(RB|TG)-[A-Z0-9]{12}$/.test(id)) panel.querySelector('[data-reference]').textContent = 'Номер заказа: ' + id;
     return;
   }
-  summary.hidden = false;
-  panel.querySelector('[data-order-id]').textContent = id;
-  panel.querySelector('[data-plan]').textContent = String(saved.plan || '');
-  panel.querySelector('[data-amount]').textContent = saved.amount.toLocaleString('ru-RU') + ' ₽';
+  function showSummary(order) {
+    summary.hidden = false;
+    panel.querySelector('[data-order-id]').textContent = id;
+    panel.querySelector('[data-plan]').textContent = String(order.plan || '');
+    panel.querySelector('[data-amount]').textContent = order.amount.toLocaleString('ru-RU') + ' ₽';
+  }
+  if (hasSession && !hasReturnKey) showSummary(saved);
   var busy = false, attempts = 0, timer, paid = false;
   var delays = [3000, 5000, 8000, 12000, 20000];
   async function check() {
@@ -42,12 +49,23 @@
     try {
       var response = await fetch(endpoints[prefix], {
         method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'orderStatus', requestId: id, submissionToken: saved.token }),
+        body: JSON.stringify(hasReturnKey ? { action: 'orderStatus', requestId: id, returnKey: returnKey, expires: String(expires) } :
+          { action: 'orderStatus', requestId: id, submissionToken: saved.token }),
         signal: AbortSignal.timeout(15000)
       });
       var result = await response.json();
-      if (!response.ok || result.success !== true || result.requestId !== id || result.amount !== saved.amount ||
+      if (!response.ok || result.success !== true || result.requestId !== id || ![500, 2000, 3500].includes(result.amount) ||
+          (!hasReturnKey && result.amount !== saved.amount) ||
           typeof result.paymentStatus !== 'string') throw new Error('Unconfirmed order');
+      if (hasReturnKey) {
+        showSummary(result);
+        try {
+          sessionStorage.setItem('prodamus.order.' + id, JSON.stringify({ requestId: id, amount: result.amount,
+            plan: result.plan, returnKey: returnKey, expires: String(expires), createdAt: Date.now() }));
+          // The fragment never enters HTTP logs/referrers; remove it after retaining the key for refresh.
+          if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+        } catch (_) { /* Keep the signed fragment if storage is blocked. */ }
+      }
       if (result.paymentStatus === 'Оплачено') {
         paid = true;
         heading.textContent = 'Спасибо! Заказ оплачен';
