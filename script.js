@@ -158,6 +158,12 @@ document.addEventListener("DOMContentLoaded", function () {
           window.renderOrderPayment(payment, { requestId: result.requestId, amount: amount, plan: payload.plan,
             provider: result.paymentProvider === "prodamus" ? "prodamus" : undefined,
             paymentUrl: paymentUrl, paymentStatus: result.paymentStatus });
+          try {
+            sessionStorage.setItem('prodamus.order.' + result.requestId, JSON.stringify({
+              requestId: result.requestId, amount: amount, plan: payload.plan,
+              token: submission.token, createdAt: Date.now()
+            }));
+          } catch (_) { /* Payment remains available when browser storage is blocked. */ }
         } else {
           payment.textContent = "Заявка сохранена. Реквизиты оплаты сейчас недоступны. Напишите @Savkin_1337 в Telegram — поможем с оплатой. Повторно отправлять заявку не нужно.";
         }
