@@ -1205,3 +1205,6 @@ img {
 
 .payment-instruction--mobile { display: none; }
 @media (max-width: 767px) { .payment-instruction--desktop { display: none; } .payment-instruction--mobile { display: inline; } }
+
+.order-payment .payment-prodamus-button { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; border-radius: 12px; background: #087bb0; color: #fff; font-weight: 600; text-decoration: none; }
+.order-payment .payment-prodamus-button:hover { background: #06628d; }

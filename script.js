@@ -147,8 +147,17 @@ document.addEventListener("DOMContentLoaded", function () {
         payment.className = "order-result";
         payment.tabIndex = -1;
         payment.setAttribute("role", "status");
-        if (typeof result.requestId === "string" && /^RB-[A-Z0-9-]{6,40}$/.test(result.requestId) && result.amount === amount && result.paymentStatus === "Не проверена") {
-          window.renderOrderPayment(payment, { requestId: result.requestId, amount: amount, plan: payload.plan });
+        if (typeof result.requestId === "string" && /^RB-[A-Z0-9-]{6,40}$/.test(result.requestId) && result.amount === amount && ["Не проверена", "Оплачено"].includes(result.paymentStatus)) {
+          var paymentUrl;
+          if (result.paymentProvider === "prodamus" && typeof result.paymentUrl === "string") {
+            try {
+              var url = new URL(result.paymentUrl);
+              if (url.origin === "https://realbuzz.payform.ru" && !url.username && !url.password) paymentUrl = url.href;
+            } catch (error) { /* Ignore malformed payment URLs. */ }
+          }
+          window.renderOrderPayment(payment, { requestId: result.requestId, amount: amount, plan: payload.plan,
+            provider: result.paymentProvider === "prodamus" ? "prodamus" : undefined,
+            paymentUrl: paymentUrl, paymentStatus: result.paymentStatus });
         } else {
           payment.textContent = "Заявка сохранена. Реквизиты оплаты сейчас недоступны. Напишите @Savkin_1337 в Telegram — поможем с оплатой. Повторно отправлять заявку не нужно.";
         }
